@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var googleClient: GoogleSignInClient
-    var newpropro: Boolean = false
+    var checklog: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +42,13 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleClient = GoogleSignIn.getClient(this, gso)
         auth = FirebaseAuth.getInstance()
-        newproject()
+        myaccount()
 
     }
 
-    private fun newproject() {
+    private fun myaccount() {
         Log.w("wwwwwwwwwwwww","error")
-        if (newpropro) {
+        if (checklog) {
             var i = Intent(this, Home::class.java)
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(i)
@@ -66,14 +66,14 @@ class MainActivity : AppCompatActivity() {
         if (user == null) {
         }
         else {
-            newproject()
+            myaccount()
         }
     }
 
     private fun singIn() {
         singOut()
-        if (newpropro) {
-            newproject()
+        if (checklog) {
+            myaccount()
         } else {
             var signInInent = googleClient.signInIntent
             startActivityForResult(signInInent, 101)
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 //FirebaseAuth(account)
             } catch (e: ApiException) {
                 Log.i("Error OOP", e.toString())
-                newpropro = false
+                checklog = false
                 updateUI(null)
             }
         }
@@ -103,11 +103,11 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.w("wwwwwwwwwwwww","ok")
                     val user = auth.currentUser
-                    newpropro = true
+                    checklog = true
                     updateUI(user)
                 } else {
                     Log.w("wwwwwwwwwwwww","no ok")
-                    newpropro = false
+                    checklog = false
                     updateUI(null)
                 }
             }

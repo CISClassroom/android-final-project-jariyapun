@@ -23,7 +23,7 @@ import java.util.*
  class receipts {
     companion object Factory {
         fun create(): receipts = receipts()
-    }
+    }//คลาสรายรัยรายจ่ายเพื่อจะเอาข้อมูลไปเก็บไว้ใน fibase
     var Id: String? = null
     var Amount: String? = null
     var category: String? = null
@@ -31,7 +31,7 @@ import java.util.*
     var from: String? = null
     var date: String? = null
     var image_uri: String? = null
-//     constructor()
+
 }
 class MainR : AppCompatActivity() {
 
@@ -40,7 +40,7 @@ class MainR : AppCompatActivity() {
     var image_uri: Uri? = null
     lateinit var mDB: DatabaseReference
     lateinit var auth: FirebaseAuth
-    var newData: receipts = receipts.create()
+    var receipData: receipts = receipts.create()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,18 +73,22 @@ class MainR : AppCompatActivity() {
         mDB = FirebaseDatabase.getInstance().reference
 
         button5.setOnClickListener {
-            AddData()
+            receipaddData()
+
+            var i = Intent(this, Home::class.java)
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(i)
         }
     }
-    fun AddData() {
+    fun receipaddData() {//แอดข้อมูลเข้า fibase
         val obj = mDB.child("receipts").push()
-        newData.Amount = mount.text.toString()
-        newData.category = calory.text.toString()
-        newData.detail = details.text.toString()
-        newData.from = fromm.text.toString()
-        newData.date = datee.text.toString()
-        newData.Id = obj.key
-        obj.setValue(newData)
+        receipData.Amount = mount.text.toString()
+        receipData.category = calory.text.toString()
+        receipData.detail = details.text.toString()
+        receipData.from = fromm.text.toString()
+        receipData.date = datee.text.toString()
+        receipData.Id = obj.key
+        obj.setValue(receipData)
     }
 
 
@@ -126,14 +130,14 @@ class MainR : AppCompatActivity() {
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK) {
             //set image captured to image view
-            imageView4.setImageURI(image_uri)
+            imageView4.setImageURI(image_uri)//ถ่ายรูปแล้วเก็บไว้ใน imageView4
 
         }
 
-        uploadImageToFirebaseStorage()
+        uploadImageToFirebaseStorage()//
     }
 
-    private fun uploadImageToFirebaseStorage() {
+    private fun uploadImageToFirebaseStorage() {//อัปโหลดรูปลง fibase
         if (image_uri == null) return
 
         val filename = "images/" + UUID.randomUUID().toString()
@@ -146,7 +150,7 @@ class MainR : AppCompatActivity() {
                 ref.getDownloadUrl()
                     .addOnSuccessListener(OnSuccessListener<Uri> { uri ->
                         // getting image uri and converting into string
-                        newData.image_uri = uri.toString()
+                        receipData.image_uri = uri.toString()//เก็บ uri รูปเป็นแบบ string และแอดเค้ากับ realtimedatabase
                     })
             })
     }

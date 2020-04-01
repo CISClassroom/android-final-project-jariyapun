@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class Home : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-    var newpropro: Boolean = false
+    var checklog: Boolean = false
 
     lateinit var listView: ListView
     lateinit var ref: DatabaseReference
@@ -34,9 +34,9 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        listView = findViewById(R.id.listViewItems2)
+        listView = findViewById(R.id.listViewItems2)//นำข้อมูลจาก fibase มาแสดงในlist
         items = mutableListOf()
-        ref = FirebaseDatabase.getInstance().getReference("receipts")
+        ref = FirebaseDatabase.getInstance().getReference("receipts")//เรียกใช้ข้อมูลใน fibase
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -50,7 +50,7 @@ class Home : AppCompatActivity() {
                         items.add(rec!!)
                     }
                     val adapter = Adapter(this@Home,R.layout.detail ,items)
-                    listView.adapter = adapter
+                    listView.adapter = adapter//เอาข้อมูลจาก fibase มาแสดงหน้า Home
                 }
            }
         })
@@ -78,8 +78,8 @@ class Home : AppCompatActivity() {
 
     }
 
-    private fun passproject() {
-        if (newpropro) {
+    private fun myaccount() {
+        if (checklog) {
             var i = Intent(this, MainActivity::class.java)
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(i)
@@ -89,16 +89,14 @@ class Home : AppCompatActivity() {
     private fun singOut() {
 
         auth.signOut()
-        newpropro = true
-        passproject()
+        checklog = true
+        myaccount()
     }
 
     private fun updateUI(user: FirebaseUser?) {
         if (user == null) {
-            //show.text = "No User"
         } else {
-            //show.text = user.email.toString()
-            passproject()
+            myaccount()
         }
 
     }
@@ -113,7 +111,7 @@ class Home : AppCompatActivity() {
                 //FirebaseAuth(account)
             } catch (e: ApiException) {
                 Log.i("Error OOP", e.toString())
-                newpropro = false
+                checklog = false
                 updateUI(null)
             }
         }
@@ -125,10 +123,10 @@ class Home : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    newpropro = true
+                    checklog = true
                     updateUI(user)
                 } else {
-                    newpropro = false
+                    checklog = false
                     updateUI(null)
                 }
             }
