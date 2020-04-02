@@ -56,9 +56,9 @@ class Home : AppCompatActivity() {
         })
 
         auth = FirebaseAuth.getInstance()
-        val NameSetting: TextView = findViewById(R.id.name)
-        val Profile: ImageView = findViewById(R.id.imageView2)
-        val Email: TextView = findViewById(R.id.mail)
+        val NameSetting: TextView = findViewById(R.id.name)//ชื่อ
+        val Profile: ImageView = findViewById(R.id.imageView2)//รูป
+        val Email: TextView = findViewById(R.id.mail)//อีเมล
         val xx: Uri? = auth.currentUser!!.photoUrl
         NameSetting.text = auth.currentUser!!.displayName.toString()
         Picasso.get().load(xx).into(Profile)
@@ -67,7 +67,7 @@ class Home : AppCompatActivity() {
         auth.currentUser!!.email
 
 
-        val btnlogout: Button = findViewById(R.id.button12)
+        val btnlogout: Button = findViewById(R.id.button12)//ปุ่มออกจากระบบ
         btnlogout.setOnClickListener({ v -> singOut() })
         button11.setOnClickListener {
 

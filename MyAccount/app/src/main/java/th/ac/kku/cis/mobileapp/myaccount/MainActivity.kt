@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        login.setOnClickListener({ v -> singIn() })
+        login.setOnClickListener({ v -> singIn() })//กดล็อกอิน
 
         var gso = GoogleSignInOptions.Builder(
             GoogleSignInOptions.DEFAULT_SIGN_IN

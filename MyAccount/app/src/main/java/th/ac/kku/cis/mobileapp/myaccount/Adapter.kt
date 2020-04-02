@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 
 public class Adapter(val mCtx: Context,
                             var resource:Int,
-                            var items:List<receipts>)
+                            var items:List<receipts>)// เก็บ class รายรับรายจ่ายเป็นลิสไว้ใน items
     : ArrayAdapter<receipts>(mCtx,resource,items){
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         //return super.getView(position, convertView, parent)
@@ -28,7 +28,7 @@ public class Adapter(val mCtx: Context,
         val receipt: receipts = items[position]
 
 
-        textView2.text = receipt.Amount
+        textView2.text = receipt.Amount//นำ แอทริบิ้วของclass รายรับรายจ่ายมาเก็บไว้ใน id ของโมเดลที่เราสร้างขึ้น
         textView4.text = receipt.category
         textView5.text = receipt.detail
         textView6.text = receipt.from
